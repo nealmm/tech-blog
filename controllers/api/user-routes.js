@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { EmptyResultError } = require('sequelize/types')
 const User   = require('../../models/User')
 
 router.get('/', (req, res) => {

@@ -13,15 +13,17 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    Comment.create({
-        contents: req.body.contents,
-        commenter_id: req.body.commenter_id,
-        post_id: req.body.post_id
-    }).then(data => {
-        res.json(data)
-    }).catch(err => {
-        res.status(400).json(err)
-    })
+    if (req.session) {
+        Comment.create({
+            contents: req.body.contents,
+            post_id: req.body.post_id,
+            commenter_id: req.session.user_id
+        }).then(data => {
+            res.json(data)
+        }).catch(err => {
+            res.status(400).json(err)
+        })
+    }
 })
 
 router.delete('/:id', (req, res) => {
