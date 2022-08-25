@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { EmptyResultError } = require('sequelize/types')
 const User   = require('../../models/User')
 
 router.get('/', (req, res) => {
@@ -31,6 +32,15 @@ router.get('/:id', (req, res) => {
             }
           }
         ]
+    }).then(data => {
+        if (!data) {
+            res.status(404).json({ message: 'Could not find user with this id' })
+            return
+        }
+
+        res.json(data)
+    }).catch(err => {
+        res.status(500).json(err)
     })
 })
 
